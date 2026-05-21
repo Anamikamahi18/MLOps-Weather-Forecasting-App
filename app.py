@@ -4,9 +4,15 @@ import plotly.express as px
 
 from src.components.model_prediction import ModelPrediction
 
-st.set_page_config(page_title="Weather Forecasting", layout="wide")
+# Page settings
+st.set_page_config(
+    page_title="MLOps Weather Forecasting", page_icon="🌦️", layout="wide"
+)
 
+# Title
 st.title("🌦️ MLOps Weather Forecasting App")
+
+st.write("Weather Forecast Dashboard")
 
 # Load processed data
 dataframe = pd.read_csv("data/processed/weather_processed.csv")
@@ -14,18 +20,20 @@ dataframe = pd.read_csv("data/processed/weather_processed.csv")
 # Prediction
 prediction = ModelPrediction()
 
-temperature = prediction.predict_temperature()
+predicted_temperature = prediction.predict_temperature()
 
-# Metric Card
-st.subheader("Forecasted Weather " "for Tomorrow")
+# Forecast Section
+st.subheader("Forecasted Weather Metrics " "for Tomorrow")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.metric("🌡️ Temperature", f"{temperature:.2f} °C")
+    st.metric(label="🌡️ Temperature", value=f"{predicted_temperature:.2f} °C")
 
 with col2:
-    st.metric("🌧️ Rain", f"{dataframe['rain'].iloc[-1]:.2f} mm")
+    latest_rain = dataframe["rain"].iloc[-1]
+
+    st.metric(label="🌧️ Rain", value=f"{latest_rain:.2f} mm")
 
 # Temperature graph
 st.subheader("Temperature Trend")
@@ -43,7 +51,7 @@ rain_fig = px.line(dataframe, x="date", y="rain", title="Rain Over Time")
 
 st.plotly_chart(rain_fig, use_container_width=True)
 
-# Data table
+# Data preview
 st.subheader("Processed Weather Data")
 
 st.dataframe(dataframe)
