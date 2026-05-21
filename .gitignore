@@ -5,8 +5,7 @@ __pycache__/
 logs/
 .cache/
 
-data/raw/
-data/processed/
+
 
 *.csv
 *.pkl
