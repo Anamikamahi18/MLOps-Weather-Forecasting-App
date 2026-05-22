@@ -1,0 +1,11 @@
+stages:
+  ingest:
+    cmd: python src/components/data_ingestion.py
+    deps:
+      - src/components/data_ingestion.py
+    outs:
+      - data/raw/weather_data.csv:
+          cache: true
+          persist: true # append-mode - DVC won't delete it between runs/the file before writing new data
+    desc: "Fetch hourly weather data from Open-Meteo API and append/save it to a CSV file weather_data.csv."
+
